@@ -1,8 +1,9 @@
+from training.oop_example.animal_parent_object import AnimalParentObject
 
 
-
-class DogObject():
+class DogObject(AnimalParentObject):
     def __init__(self, name, age):
+        print(f"info of dog {name}")
         self.name = name
         self.age = age
 
@@ -11,13 +12,3 @@ class DogObject():
 
     def make_noise(self):
         print("woof woof")
-
-    def calculate_distance(self,time,speed):
-        distance = time * speed
-        if distance < 10:
-            print("lazy dog")
-
-        else:
-            print("dog ok")
-
-        return distance
