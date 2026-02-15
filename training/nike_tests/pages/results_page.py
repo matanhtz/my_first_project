@@ -1,14 +1,12 @@
-from training.new_file import index
-
 
 class ResultsPage:
     def __init__(self,page):
         self.page = page
 
     def get_results_title(self):
-        item_results_title = self.page.locator("[class='wall-header__title css-r2u0ax']")
-        text = item_results_title.inner_text()
-        return text
+        results_found_element = self.page.locator("[class='wall-header__title css-r2u0ax']")
+        results_title = results_found_element.inner_text()
+        return results_title
 
     def sort_results_by_price(self):
         self.page.get_by_text("Sort By").click()
@@ -25,6 +23,8 @@ class ResultsPage:
             prices.append(price_nis)
 
         return prices
+
+
 
 
 

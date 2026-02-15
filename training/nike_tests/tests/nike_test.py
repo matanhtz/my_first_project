@@ -1,3 +1,5 @@
+
+
 from playwright.sync_api import expect
 from training.nike_tests.globals import URL
 from training.nike_tests.pages.home_page import HomePage
@@ -52,4 +54,4 @@ class TestNike:
                 order_of_prices_correct = False
                 break
 
-        assert order_of_prices_correct == True, "unexpected result"
+        assert order_of_prices_correct == True, "order of prices incorrect"
