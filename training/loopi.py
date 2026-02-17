@@ -5,3 +5,6 @@ for i in range(0,10):
     else:
         print(i)
         break
+
+string = "String"
+print(string.lower())
