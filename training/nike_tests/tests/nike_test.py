@@ -1,5 +1,4 @@
-
-
+from time import sleep
 from playwright.sync_api import expect
 from training.nike_tests.globals import URL
 from training.nike_tests.pages.home_page import HomePage
@@ -40,15 +39,19 @@ class TestNike:
         page.goto(URL)
         home_page = HomePage(page)
         results_page = ResultsPage(page)
-        item = "Shirt"
-        home_page.search_for_item(item)
+        home_page.search_for_item("Shirt")
         results_page.sort_results_by_price()
         expect(page).to_have_url("https://www.nike.com/il/w?q=Shirt&vst=Shirt&sortBy=priceAsc")
 
     def test_price_list(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
-        page.goto("https://www.nike.com/il/w?q=Shirt&vst=Shirt&sortBy=priceAsc")
+        page.goto(URL)
+        home_page = HomePage(page)
         results_page = ResultsPage(page)
+        home_page.search_for_item("baseball cap")
+        results_page.sort_results_by_price()
+        sleep(3)
+        page.wait_for_url("**priceAsc")
         price_list = results_page.check_items_price_list()
         order_of_prices_correct = True
         for i in range(0, len(price_list)-1):
