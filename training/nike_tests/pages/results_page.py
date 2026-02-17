@@ -1,12 +1,9 @@
+from time import sleep
+
 
 class ResultsPage:
     def __init__(self,page):
         self.page = page
-
-    def get_results_title(self):
-        results_found_element = self.page.locator("[class='wall-header__title css-r2u0ax']")
-        results_title = results_found_element.inner_text()
-        return results_title
 
     def sort_results_by_price(self):
         self.page.get_by_text("Sort By").click()
@@ -24,7 +21,23 @@ class ResultsPage:
 
         return prices
 
-
+    def check_search_filters(self):
+        filters_selected = []
+        gender_filter = self.page.get_by_text("Gender")
+        men_filter = self.page.locator("[aria-label='Filter for Men']")
+        gender_filter.click()
+        men_filter.click()
+        men_label = men_filter.inner_text()
+        filters_selected.append(men_label)
+        self.page.get_by_text("Sale & Offers").click()
+        sale_filter = self.page.locator("[aria-label='Filter for Sale']")
+        sale_filter.click()
+        sale_label = sale_filter.inner_text()
+        filters_selected.append(sale_label)
+        filters_selected_lowercase = []
+        for item in filters_selected:
+            filters_selected_lowercase.append(item.lower())
+        return filters_selected_lowercase
 
 
 

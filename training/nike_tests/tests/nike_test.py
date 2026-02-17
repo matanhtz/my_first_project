@@ -12,11 +12,13 @@ class TestNike:
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
-        results_page = ResultsPage(page)
-        item = "basketball shoes"
+        item = "Basketball shoes"
         home_page.search_for_item(item)
-        results_title = results_page.get_results_title()
-        assert item in results_title, "item not in title"
+        item_text = item.split()
+        page.wait_for_url("**/il/w?q=**")
+        current_url = page.url
+        results_page_reached = all(item in current_url for item in item_text)
+        assert results_page_reached, "item not in url"
 
     def test_header_menu(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
@@ -24,7 +26,7 @@ class TestNike:
         home_page = HomePage(page)
         section_title = home_page.get_header_items()
         url_section = section_title.lower()
-        assert url_section in page.url, "section_title not in current_url"
+        assert url_section in page.url, "section title not in current url"
 
     def test_jordan_button(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
@@ -55,3 +57,14 @@ class TestNike:
                 break
 
         assert order_of_prices_correct == True, "order of prices incorrect"
+
+    def test_search_filters(self,setup_playwright_nike_project):
+        page = setup_playwright_nike_project
+        page.goto(URL)
+        home_page = HomePage(page)
+        home_page.search_for_item("tennis shoes")
+        results_page = ResultsPage(page)
+        filters_selected = results_page.check_search_filters()
+        current_url = page.url
+        item_is_in_url = all(item in current_url for item in filters_selected)
+        assert item_is_in_url == True, "item not in url"
