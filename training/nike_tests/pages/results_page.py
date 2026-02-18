@@ -23,8 +23,8 @@ class ResultsPage:
     def check_search_filters(self):
         filters_selected = []
         gender_filter = self.page.get_by_text("Gender")
-        men_filter = self.page.locator("[aria-label='Filter for Men']")
         gender_filter.click()
+        men_filter = self.page.locator("[aria-label='Filter for Men']")
         men_filter.click()
         men_label = men_filter.inner_text()
         filters_selected.append(men_label)

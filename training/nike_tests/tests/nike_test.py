@@ -16,34 +16,17 @@ class TestNike:
         item_text = item.split()
         page.wait_for_url("**/il/w?q=**")
         current_url = page.url
-        results_page_reached = all(item in current_url for item in item_text)
-        assert results_page_reached, "item not in url"
+        correct_results_page_reached = all(item in current_url for item in item_text)
+        assert correct_results_page_reached, "item not in url"
 
-    def test_header_menu(self,setup_playwright_nike_project):
+    def test_help_menu(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
-        section_title = home_page.get_header_items()
-        url_section = section_title.lower()
-        assert url_section in page.url, "section title not in current url"
+        menu_item_url = home_page.check_help_menu(5)
+        expect(page).to_have_url(menu_item_url)
 
-    def test_jordan_button(self,setup_playwright_nike_project):
-        page = setup_playwright_nike_project
-        page.goto(URL)
-        home_page = HomePage(page)
-        home_page.click_jordan_button()
-        expect(page).to_have_url("https://www.nike.com/il/jordan")
-
-    def test_sort_results_button(self,setup_playwright_nike_project):
-        page = setup_playwright_nike_project
-        page.goto(URL)
-        home_page = HomePage(page)
-        results_page = ResultsPage(page)
-        home_page.search_for_item("Shirt")
-        results_page.sort_results_by_price()
-        expect(page).to_have_url("https://www.nike.com/il/w?q=Shirt&vst=Shirt&sortBy=priceAsc")
-
-    def test_price_list(self,setup_playwright_nike_project):
+    def test_results_sort_by_price(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
@@ -71,3 +54,18 @@ class TestNike:
         current_url = page.url
         item_is_in_url = all(item in current_url for item in filters_selected)
         assert item_is_in_url == True, "item not in url"
+
+    def test_header_menu(self,setup_playwright_nike_project):
+        page = setup_playwright_nike_project
+        page.goto(URL)
+        home_page = HomePage(page)
+        section_title = home_page.get_header_items()
+        url_section = section_title.lower()
+        assert url_section in page.url, "section title not in current url"
+
+    def test_jordan_button(self,setup_playwright_nike_project):
+        page = setup_playwright_nike_project
+        page.goto(URL)
+        home_page = HomePage(page)
+        home_page.click_jordan_button()
+        expect(page).to_have_url("https://www.nike.com/il/jordan")
