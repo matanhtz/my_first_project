@@ -45,7 +45,7 @@ class TestNike:
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
-        section_title = home_page.get_women_header_items()
+        section_title = home_page.check_women_header_menu()
         assert section_title in page.url, "section title not in current url"
 
     def test_jordan_button(self,setup_playwright_nike_project):

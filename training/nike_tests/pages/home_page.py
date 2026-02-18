@@ -46,12 +46,12 @@ class HomePage:
         jordan_button = self.page.locator("[aria-label='Jordan']")
         jordan_button.click()
 
-    def get_women_header_items(self):
+    def check_women_header_menu(self):
         header_menu = self.page.query_selector_all("[class='menu-hover-trigger-link']")
-        menu_section_title = header_menu[2].inner_text()
-        menu_section_title_lowercase = menu_section_title.lower()
+        women_menu_section = header_menu[2].inner_text()
+        women_menu_section_lowercase = women_menu_section.lower()
         header_menu[2].click()
-        return menu_section_title_lowercase
+        return women_menu_section_lowercase
 
 
 
