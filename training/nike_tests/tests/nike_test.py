@@ -19,8 +19,8 @@ class TestNike:
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
-        menu_item_url = home_page.check_help_menu(5)
-        expect(page).to_have_url(menu_item_url)
+        help_menu_valid = home_page.check_help_menu()
+        assert help_menu_valid, "help menu with error"
 
     def test_results_sort_by_price(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
@@ -40,15 +40,14 @@ class TestNike:
         results_page = ResultsPage(page)
         filters_selected = results_page.check_search_filters()
         item_is_in_url = all(item in page.url for item in filters_selected)
-        assert item_is_in_url == True, "item not in url"
+        assert item_is_in_url, "item not in url"
 
-    def test_header_menu(self,setup_playwright_nike_project):
+    def test_women_header_menu(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
-        section_title = home_page.get_header_items()
-        url_section = section_title.lower()
-        assert url_section in page.url, "section title not in current url"
+        section_title = home_page.get_women_header_items()
+        assert section_title in page.url, "section title not in current url"
 
     def test_jordan_button(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project

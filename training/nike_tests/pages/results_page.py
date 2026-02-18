@@ -32,9 +32,9 @@ class ResultsPage:
     def check_search_filters(self):
         filters_selected = []
         self.page.get_by_text("Gender").click()
-        sleep(1)
         men_filter = self.page.locator("[aria-label='Filter for Men']")
         men_filter.click()
+        sleep(2)
         men_label = men_filter.inner_text()
         filters_selected.append(men_label)
         self.page.get_by_text("Sale & Offers").click()
