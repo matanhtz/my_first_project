@@ -11,12 +11,8 @@ class TestNike:
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
-        item = "Basketball shoes"
-        home_page.search_for_item(item)
-        item_text = item.split()
-        page.wait_for_url("**/il/w?q=**")
-        current_url = page.url
-        correct_results_page_reached = all(item in current_url for item in item_text)
+        item_text = home_page.search_for_item("Basketball shoes")
+        correct_results_page_reached = all(item in page.url for item in item_text)
         assert correct_results_page_reached, "item not in url"
 
     def test_help_menu(self,setup_playwright_nike_project):
@@ -33,16 +29,8 @@ class TestNike:
         results_page = ResultsPage(page)
         home_page.search_for_item("baseball cap")
         results_page.sort_results_by_price()
-        sleep(3)
-        page.wait_for_url("**priceAsc")
-        price_list = results_page.check_items_price_list()
-        order_of_prices_correct = True
-        for i in range(0, len(price_list)-1):
-            if price_list[i] > price_list[i+1]:
-                order_of_prices_correct = False
-                break
-
-        assert order_of_prices_correct == True, "order of prices incorrect"
+        order_of_prices_correct = results_page.check_items_price_list()
+        assert order_of_prices_correct, "order of prices incorrect"
 
     def test_search_filters(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
@@ -51,8 +39,7 @@ class TestNike:
         home_page.search_for_item("tennis shoes")
         results_page = ResultsPage(page)
         filters_selected = results_page.check_search_filters()
-        current_url = page.url
-        item_is_in_url = all(item in current_url for item in filters_selected)
+        item_is_in_url = all(item in page.url for item in filters_selected)
         assert item_is_in_url == True, "item not in url"
 
     def test_header_menu(self,setup_playwright_nike_project):

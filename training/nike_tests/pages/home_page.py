@@ -10,9 +10,12 @@ class HomePage:
         search_field = self.page.locator("[data-testid='visual-search-container']")
         search_field.click()
         search_field.type(item)
+        item_text = item.split()
         keyboard = Controller()
         keyboard.press(Key.enter)
         keyboard.release(Key.enter)
+        self.page.wait_for_url("**/il/w?q=**")
+        return item_text
 
     def check_help_menu(self,menu_item:int):
         self.page.locator("[data-testid='desktop-user-menu-item-message-1']").hover()

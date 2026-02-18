@@ -1,3 +1,4 @@
+from time import sleep
 
 
 class ResultsPage:
@@ -9,6 +10,8 @@ class ResultsPage:
         sort_by_items = self.page.query_selector_all("[class='dropdown__option css-10h9yp8']")
         sort_by_price = sort_by_items[3]
         sort_by_price.click()
+        sleep(2)
+        self.page.wait_for_url("**priceAsc")
 
     def check_items_price_list(self):
         prices = []
@@ -18,12 +21,18 @@ class ResultsPage:
             price_nis = float(price)
             prices.append(price_nis)
 
-        return prices
+        order_of_prices_correct = True
+        for i in range(0, len(prices) - 1):
+            if prices[i] > prices[i + 1]:
+                order_of_prices_correct = False
+                break
+
+        return order_of_prices_correct
 
     def check_search_filters(self):
         filters_selected = []
-        gender_filter = self.page.get_by_text("Gender")
-        gender_filter.click()
+        self.page.get_by_text("Gender").click()
+        sleep(1)
         men_filter = self.page.locator("[aria-label='Filter for Men']")
         men_filter.click()
         men_label = men_filter.inner_text()
