@@ -1,4 +1,3 @@
-from time import sleep
 from playwright.sync_api import expect
 from training.nike_tests.globals import URL
 from training.nike_tests.pages.home_page import HomePage

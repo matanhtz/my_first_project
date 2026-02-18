@@ -1,9 +1,6 @@
 import logging
 from time import sleep
-
 from pynput.keyboard import Key, Controller
-from urllib3.exceptions import HTTPError
-
 from training.nike_tests.globals import URL
 
 
