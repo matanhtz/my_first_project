@@ -1,6 +1,4 @@
 import logging
-from time import sleep
-from pynput.keyboard import Key, Controller
 from training.nike_tests.globals import URL
 
 
@@ -13,27 +11,38 @@ class HomePage:
         search_field.click()
         search_field.type(item)
         item_text = item.split()
-        keyboard = Controller()
-        keyboard.press(Key.enter)
-        keyboard.release(Key.enter)
+        self.page.keyboard.press("Enter")
         self.page.wait_for_url("**/il/w?q=**")
         return item_text
 
     def check_help_menu(self):
-        self.page.locator("[data-testid='desktop-user-menu-item-message-1']").hover()
+        help_header = self.page.locator("[data-testid='desktop-user-menu-item-message-1']")
+        help_header.hover()
         help_menu = self.page.get_by_role("list", name="Order Status")
         help_menu_items = help_menu.get_by_role("listitem").all()
         help_menu_valid = True
-        for i in range(0,3):
+        for i in range(0,len(help_menu_items)):
             href = help_menu_items[i].get_by_role("menuitem").get_attribute("href")
             help_menu_items[i].click()
-            sleep(3)
+            if href.startswith("#"):
+                try:
+                    self.page.locator("[aria-label='Close']").click()
+                    if i != len(help_menu_items)-1:
+                        help_header.hover()
+                except Exception as e:
+                    logging.warning(f"the popup for item {i} in this menu does not appear; error: {e}")
+                    help_menu_valid = False
+                    break
+                continue
             response = self.page.request.get(href, timeout=5000)
             status = response.status
             if status == 200:
-                self.page.goto(URL)
-                sleep(3)
-                self.page.locator("[data-testid='desktop-user-menu-item-message-1']").hover()
+                if href.startswith("https://www.nike.com"):
+                    self.page.keyboard.press("Home")
+                else:
+                    self.page.goto(URL)
+            if i != len(help_menu_items)-1:
+                help_header.hover()
 
             else:
                 logging.warning(f"the url of item {i} in this menu is broken")

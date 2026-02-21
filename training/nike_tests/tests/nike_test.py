@@ -35,7 +35,7 @@ class TestNike:
         page = setup_playwright_nike_project
         page.goto(URL)
         home_page = HomePage(page)
-        home_page.search_for_item("tennis shoes")
+        home_page.search_for_item("tennis shirt")
         results_page = ResultsPage(page)
         filters_selected = results_page.check_search_filters()
         item_is_in_url = all(item in page.url for item in filters_selected)
