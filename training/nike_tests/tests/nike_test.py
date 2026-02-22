@@ -40,8 +40,8 @@ class TestNike:
         results_page = ResultsPage(page)
         results_page.check_if_results_found()
         filters_selected = results_page.check_search_filters()
-        item_is_in_url = all(item in page.url for item in filters_selected)
-        assert item_is_in_url, "item not in url"
+        selected_filters_checked = all(item in page.url for item in filters_selected)
+        assert selected_filters_checked, "selected filters not checked"
 
     def test_women_header_menu(self,setup_playwright_nike_project):
         page = setup_playwright_nike_project
