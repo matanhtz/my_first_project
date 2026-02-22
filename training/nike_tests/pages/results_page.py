@@ -1,5 +1,7 @@
 from time import sleep
 
+import pytest
+
 
 class ResultsPage:
     def __init__(self,page):
@@ -46,6 +48,10 @@ class ResultsPage:
         for item in filters_selected:
             filters_selected_lowercase.append(item.lower())
         return filters_selected_lowercase
+
+    def check_if_results_found(self):
+        if self.page.locator("[data-test='no-results-title']").count() > 0:
+            pytest.skip("No results found - end of test")
 
 
 

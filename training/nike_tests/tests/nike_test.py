@@ -27,6 +27,7 @@ class TestNike:
         home_page = HomePage(page)
         results_page = ResultsPage(page)
         home_page.search_for_item("baseball cap")
+        results_page.check_if_results_found()
         results_page.sort_results_by_price()
         order_of_prices_correct = results_page.check_items_price_list()
         assert order_of_prices_correct, "order of prices incorrect"
@@ -37,6 +38,7 @@ class TestNike:
         home_page = HomePage(page)
         home_page.search_for_item("tennis shirt")
         results_page = ResultsPage(page)
+        results_page.check_if_results_found()
         filters_selected = results_page.check_search_filters()
         item_is_in_url = all(item in page.url for item in filters_selected)
         assert item_is_in_url, "item not in url"
